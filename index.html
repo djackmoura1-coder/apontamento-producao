@@ -21,19 +21,10 @@
 <label>OP:</label>
 <input type="text" id="op">
 
-<label>Tipo de atividade:</label>
-<select id="tipo">
-  <option value="inicio">Início</option>
-  <option value="fim">Finalização</option>
-</select>
+<br><br>
 
-<label>Ocorrências:</label>
-<textarea id="ocorrencias"></textarea>
-
-<label>Observações:</label>
-<textarea id="observacoes"></textarea>
-
-<button onclick="salvar()">Enviar</button>
+<button onclick="iniciarOP()">Iniciar OP</button>
+<button onclick="finalizarOP()">Finalizar OP</button>
 
 </div>
 
@@ -58,37 +49,49 @@ const db = firebase.firestore();
 </script>
 
 <script>
-// PREENCHE LINHA VIA QR CODE (?linha=A)
+// PREENCHER LINHA VIA QR (?linha=A)
 const params = new URLSearchParams(window.location.search);
-const linha = params.get("linha");
+document.getElementById("linha").value = params.get("linha") || "";
 
-if (linha) {
-  document.getElementById("linha").value = linha;
+// VARIÁVEL GLOBAL PARA INÍCIO
+let inicioOP = null;
+
+// INICIAR OP
+function iniciarOP() {
+
+inicioOP = new Date();
+
+alert("OP iniciada às " + inicioOP.toLocaleTimeString());
+
 }
-</script>
 
-<script>
-// FUNÇÃO SALVAR NO FIREBASE
-function salvar() {
+// FINALIZAR OP
+function finalizarOP() {
+
+if (!inicioOP) {
+alert("Você precisa iniciar a OP primeiro!");
+return;
+}
+
+const fimOP = new Date();
+const tempoMinutos = Math.round((fimOP - inicioOP) / 60000);
 
 const data = {
   operador: document.getElementById("operador").value,
   linha: document.getElementById("linha").value,
   op: document.getElementById("op").value,
-  tipo: document.getElementById("tipo").value,
-  ocorrencias: document.getElementById("ocorrencias").value,
-  observacoes: document.getElementById("observacoes").value,
-  hora: new Date().toISOString()
+  inicio: inicioOP.toISOString(),
+  fim: fimOP.toISOString(),
+  tempo_minutos: tempoMinutos
 };
 
 db.collection("apontamentos").add(data)
 .then(() => {
-  alert("Apontamento salvo com sucesso!");
+  alert("OP finalizada! Tempo total: " + tempoMinutos + " minutos");
 
-  // limpa campos
+  // reset
+  inicioOP = null;
   document.getElementById("op").value = "";
-  document.getElementById("ocorrencias").value = "";
-  document.getElementById("observacoes").value = "";
 })
 .catch((error) => {
   alert("Erro ao salvar: " + error);
