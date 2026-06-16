@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Apontamento de Produção</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2>Apontamento de Produção</h2>
+
+<div class="card">
+
+<label>Operador:</label>
+<input type="text" id="operador">
+
+<label>Linha:</label>
+<input type="text" id="linha" readonly>
+
+<label>OP:</label>
+<input type="text" id="op">
+
+<label>Tipo de atividade:</label>
+<select id="tipo">
+  <option value="inicio">Início</option>
+  <option value="fim">Finalização</option>
+</select>
+
+<label>Ocorrências:</label>
+<textarea id="ocorrencias"></textarea>
+
+<label>Observações:</label>
+<textarea id="observacoes"></textarea>
+
+<button onclick="salvar()">Enviar</button>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
