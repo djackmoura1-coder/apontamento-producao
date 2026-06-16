@@ -37,6 +37,26 @@
 
 </div>
 
+<!-- Firebase SDK (compatível com GitHub Pages) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+// CONFIG FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyDJBQjFfmh_7SMtcl7AILrWqdKZOKo7y38",
+  authDomain: "apontamento-producao-f29f4.firebaseapp.com",
+  projectId: "apontamento-producao-f29f4",
+  storageBucket: "apontamento-producao-f29f4.firebasestorage.app",
+  messagingSenderId: "431358877642",
+  appId: "1:431358877642:web:66b9bd1b3c2d8bb3457933"
+};
+
+// INIT FIREBASE
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
 <script src="app.js"></script>
 
 </body>
