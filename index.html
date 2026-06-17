@@ -30,13 +30,13 @@
 
 <script>
 // ============================
-// PREENCHER LINHA VIA QR
+// PREENCHER LINHA VIA QR (?linha=A)
 // ============================
 const params = new URLSearchParams(window.location.search);
 document.getElementById("linha").value = params.get("linha") || "";
 
 // ============================
-// URL DO GOOGLE APPS SCRIPT
+// URL DO APPS SCRIPT
 // ============================
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmx53MnZW_ACv7bATyJwmWvJUcKyzRDc8xLGv_T_qHpbL3crdb-UUkPvvu9us2uWOWuw/exec";
 
@@ -75,17 +75,15 @@ function finalizarOP() {
     tempo: tempoMinutos
   };
 
+  // ENVIO CORRETO PARA GOOGLE SHEETS
   fetch(SCRIPT_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
+    body: new URLSearchParams(data)
   })
   .then(() => {
     alert("OP finalizada! Tempo total: " + tempoMinutos + " minutos");
 
-    // reset do sistema
+    // reset
     inicioOP = null;
     document.getElementById("op").value = "";
   })
