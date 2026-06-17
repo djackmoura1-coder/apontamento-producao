@@ -30,7 +30,7 @@
 
 <script>
 // ============================
-// PREENCHER LINHA VIA QR (?linha=A)
+// LINHA VIA QR (?linha=A)
 // ============================
 const params = new URLSearchParams(window.location.search);
 document.getElementById("linha").value = params.get("linha") || "";
@@ -54,7 +54,7 @@ function iniciarOP() {
 }
 
 // ============================
-// FINALIZAR OP
+// FINALIZAR OP (VERSÃO ESTÁVEL)
 // ============================
 function finalizarOP() {
 
@@ -66,20 +66,15 @@ function finalizarOP() {
   const fimOP = new Date();
   const tempoMinutos = Math.round((fimOP - inicioOP) / 60000);
 
-  const data = {
-    operador: document.getElementById("operador").value,
-    linha: document.getElementById("linha").value,
-    op: document.getElementById("op").value,
-    inicio: inicioOP.toISOString(),
-    fim: fimOP.toISOString(),
-    tempo: tempoMinutos
-  };
+  const url = SCRIPT_URL +
+    "?operador=" + encodeURIComponent(document.getElementById("operador").value) +
+    "&linha=" + encodeURIComponent(document.getElementById("linha").value) +
+    "&op=" + encodeURIComponent(document.getElementById("op").value) +
+    "&inicio=" + encodeURIComponent(inicioOP.toISOString()) +
+    "&fim=" + encodeURIComponent(fimOP.toISOString()) +
+    "&tempo=" + encodeURIComponent(tempoMinutos);
 
-  // ENVIO CORRETO PARA GOOGLE SHEETS
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    body: new URLSearchParams(data)
-  })
+  fetch(url)
   .then(() => {
     alert("OP finalizada! Tempo total: " + tempoMinutos + " minutos");
 
