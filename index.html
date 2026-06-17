@@ -29,23 +29,33 @@
 </div>
 
 <script>
-// PREENCHER LINHA VIA QR (?linha=A)
+// ============================
+// PREENCHER LINHA VIA QR
+// ============================
 const params = new URLSearchParams(window.location.search);
 document.getElementById("linha").value = params.get("linha") || "";
 
-// URL DO GOOGLE APPS SCRIPT (COLE A SUA AQUI)
+// ============================
+// URL DO GOOGLE APPS SCRIPT
+// ============================
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmx53MnZW_ACv7bATyJwmWvJUcKyzRDc8xLGv_T_qHpbL3crdb-UUkPvvu9us2uWOWuw/exec";
 
+// ============================
 // VARIÁVEL GLOBAL
+// ============================
 let inicioOP = null;
 
+// ============================
 // INICIAR OP
+// ============================
 function iniciarOP() {
   inicioOP = new Date();
   alert("OP iniciada às " + inicioOP.toLocaleTimeString());
 }
 
+// ============================
 // FINALIZAR OP
+// ============================
 function finalizarOP() {
 
   if (!inicioOP) {
@@ -67,12 +77,15 @@ function finalizarOP() {
 
   fetch(SCRIPT_URL, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(data)
   })
   .then(() => {
     alert("OP finalizada! Tempo total: " + tempoMinutos + " minutos");
 
-    // reset
+    // reset do sistema
     inicioOP = null;
     document.getElementById("op").value = "";
   })
